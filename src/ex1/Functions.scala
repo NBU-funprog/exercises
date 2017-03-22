@@ -50,27 +50,28 @@ object Functions {
   }
 
   // Проверява дали съществува елемент отговарящ на f
-  def exists(data: Array[Int], item: Int, f: (Int, Int) => Boolean): Boolean = {
+  def exists(data: Array[Int], f: (Int, Int) => Boolean): Boolean = {
     if (data.isEmpty) false
-    else if (f(data.head, item)) true
-    else exists(data.tail, item, f)
+    else if (f(data.head)) true
+    else exists(data.tail, f)
   }
+
   // Връща масив съдържащ само елементите отговарящи на f
-  def filter(data: List[Int], item: Int, f: (Int, Int) => Boolean): Array[Int] = {
+  def filter(data: List[Int], f: Int => Boolean): Array[Int] = {
     if(data.isEmpty) Array[Int]()
-    else if (f(data.head, item)) {
-      return Array[Int](data.head) ++ filter(data.tail, item, f)
+    else if (f(data.head)) {
+      return Array[Int](data.head) ++ filter(data.tail, f)
     }
     else {
-      filter(data.tail, item, f)
+      filter(data.tail, f)
     }
   }
 
   // Проверява дали всички елементи отговарят на f
-  def forall(data: List[Int], item: Int,  f: (Int, Int) => Boolean): Boolean = {
+  def forall(data: List[Int], f: Int => Boolean): Boolean = {
     if (data.isEmpty) true
-    else if (!f(data.head, item)) false
-    else forall(data.tail, item, f)
+    else if (!f(data.head)) false
+    else forall(data.tail, f)
   }
 
   // Връща числото от триъгълника на Паскал отговарящо на съответния ред/колона
