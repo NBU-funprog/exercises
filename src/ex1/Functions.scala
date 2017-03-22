@@ -8,7 +8,7 @@ object Functions {
   def length(data: List[Int]) Int = {
     def lengthInner(data: Array[Int], counter: Int): Int = {
       if (data.isEmpty) return counter;
-      else return lengthInner(data.tail, counter + 1);
+      else lengthInner(data.tail, counter + 1);
     }
     return lengthInner(data, 0)
   }
@@ -35,18 +35,18 @@ object Functions {
     trackOpened(chars, 0)
   }
 
-  def map(chars: List[Char], f: Char => Char): Array[Char] = {
-    if(chars.isEmpty) Array[Char]()
+  def map(chars: List[Char], f: Char => Char): List[Char] = {
+    if(chars.isEmpty) Nil
     else
-      return Array[Char](f(chars.head)) ++ map(chars.tail, f)
+      return f(chars.head) :: map(chars.tail, f)
   }
 
 
-  def toUpperCase(chars: List[Char]): Array[Char] = {
-    def upperCase(char: Char): Char = return char.toUpper
-    if(chars.isEmpty) Array[Char]()
+  def toUpperCase(chars: List[Char]): List[Char] = {
+    def upperCase(char: Char): Char = char.toUpper
+    if(chars.isEmpty) Nil
     else
-      return Array[Char](upperCase(chars.head)) ++ toUpperCase(chars.tail)
+      return upperCase(chars.head) :: toUpperCase(chars.tail)
   }
 
   // Проверява дали съществува елемент отговарящ на f
@@ -57,14 +57,13 @@ object Functions {
   }
 
   // Връща масив съдържащ само елементите отговарящи на f
-  def filter(data: List[Int], f: Int => Boolean): Array[Int] = {
-    if(data.isEmpty) Array[Int]()
+  def filter(data: List[Int], f: (Int) => Boolean): List[Int] = {
+    if(data.isEmpty) Nil
     else if (f(data.head)) {
-      return Array[Int](data.head) ++ filter(data.tail, f)
+      return data.head :: filter(data.tail, f)
     }
     else {
       filter(data.tail, f)
-    }
   }
 
   // Проверява дали всички елементи отговарят на f
