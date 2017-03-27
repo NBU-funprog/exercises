@@ -9,6 +9,8 @@ object Homework_1 {
     filter(Array(1, 2, 3, 1), 1).foreach(x =>print(x + " "))
     println()
     println(forall(List(1,1,2), 1))
+    println("**********")
+    println(pascal(2,3))
   }
 
   def length(data: Array[Int]): Int = {
@@ -33,4 +35,8 @@ object Homework_1 {
     data.forall(x => x == f)
   }
 
+  def pascal(c: Int, r: Int): Int = {
+    if (c == 0 || c == r) 1
+    else pascal(c - 1, r - 1) + pascal(c, r - 1)
+  }
 }
