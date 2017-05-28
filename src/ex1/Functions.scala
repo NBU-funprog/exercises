@@ -73,19 +73,21 @@ object Functions {
 
   // Връща масив съдържащ само елементите отговарящи на f
   //data.filter(f:Int=>Boolean)
-  def filter(data: List[Int], f:Int=>Boolean):List[Int] = {
-    if(data.isEmpty)
-    {
-      None
+  def filter(data: List[Int], f:(Int)=>Boolean):List[Int] = {
+    def filtraion(data: List[Int], f: (Int) => Boolean, filelm: List[Int]): List[Int] = {
+      if (data.isEmpty) {
+        filelm
+      }
+      else {
+        if (f(data.head)) {
+          filtraion(data.tail, f, filelm :+ data.head)
+        }
+        else {
+          filtraion(data.tail, f, filelm)
+        }
+      }
+      filtraion(data, f, List())
     }
-    else if(f(data.head))
-    {
-      data.head::filter(data.tail,f)
-    }
-    else {
-      filter(data.tail,f)
-    }
-    filter(data,f)
   }
   // Проверява дали всички елементи отговарят на f
   def forall(data: List[Int], f: Int): Boolean={
