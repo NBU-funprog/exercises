@@ -15,7 +15,7 @@ object Functions {
     mat3xLen(data,0)
   }
   // Ако cond е true връща onTrue
-  def ifelse(cond: Boolean, onTrue: Int, onFalse: Int): Int = {
+  def ifelse(cond: Boolean, onTrue: => Int, onFalse: => Int): Int = {
     if(cond) {
       onTrue
     }
@@ -89,7 +89,20 @@ object Functions {
   }
   // Проверява дали всички елементи отговарят на f
   def forall(data: List[Int], f: Int): Boolean={
-    data.forall(xs=>xs == f)
+    //data.forall(xs=>xs == f)
+    if(data.isEmpty)
+    {
+      false
+    }
+    else
+    {
+      if(f(data.head)){
+        true
+      }
+      else {
+        exists(data.tail, f)
+      }
+    }
   }
   // Връща числото от триъгълника на Паскал отговарящо на съответния ред/колона
   def pascal(c: Int, r: Int): Int ={
