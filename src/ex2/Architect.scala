@@ -36,24 +36,20 @@ class Architect {
 
   // Determines the type of given triangle: "rectangular", "equilateral", "isosceles", "random"
   def triangleType(t: Triangle): String = {
-    if (t.a != t.b && t.a != t.c && t.b != t.c) {
-      val sA = Math.pow(t.a,2)
-      val sB = Math.pow(t.b,2)
-      val sC = Math.pow(t.c,2)
-      if ((sA + sB == sC) || (sA + sC == sB) || (sB + sC == sA)) {
-        "Rectangular"
-      }
-      else {
-        "Random"
-      }
+    val sA = Math.pow(t.a,2)
+    val sB = Math.pow(t.b,2)
+    val sC = Math.pow(t.c,2)
+    if ((sA + sB == sC) || (sA + sC == sB) || (sB + sC == sA)) {
+      "Rectangular"
+    }
+    else  if((t.a == t.b) && (t.b == t.c)) {
+      "equilateral"
+    }
+    else if((t.a == t.b) || (t.a == t.c) || (t.b == t.c)) {
+      "isosceles"
     }
     else {
-      if (t.a == t.b && t.b == t.c) {
-        "equilateral"
-      }
-      else {
-        "isosceles"
-      }
+      "random"
     }
   }
 
