@@ -1,4 +1,6 @@
-package ex3
+/**
+  * Created by Petar on 29/05/2017.
+  */
 
 /**
   * Created by Ivan Atanassov on 5/2/2017.
@@ -7,32 +9,35 @@ object StreamsExercise {
 
   /**
     * Creates infinite sequence of natural numbers starting from {@code n} .
+    *
     * @param n the fist number of the sequence
     * @return infinite sequence of naturals
     */
-  def from(n:Int): Stream[Int] = Stream.cons(n, from(n + 1))
+  def from(n: Int): Stream[Int] = Stream.cons(n, from(n + 1))
 
   /**
     * Infinite sequence of a, 2*a, 2*2*a,..
+    *
     * @param a starting number
     * @return Infinite sequence of a, 2*a, 2*2*a,..
     */
-  def multiplyByTwo(a: Int) : Stream[Int] = a #:: multiplyByTwo(2*a)
+  def multiplyByTwo(a: Int): Stream[Int] = a #:: multiplyByTwo(2 * a)
 
   /**
     *
     * Represents the sequence of all powers of 2, starting form 2
     */
-  lazy val powersOfTwo : Stream[Int] = multiplyByTwo(2)
+  lazy val powersOfTwo: Stream[Int] = multiplyByTwo(2)
 
   /**
     * Defines the sequence of all fibonacci numbers starting with the two
     * defined as parameters.
+    *
     * @param fib1 the second fibonacci number
     * @param fib2 the first fibonacci number
     * @return fibonacci numbers' sequence
     */
-  def fibFrom(fib1: Int, fib2: Int): Stream[Int] = fib1 #:: fibFrom(fib2,  fib1 + fib2)
+  def fibFrom(fib1: Int, fib2: Int): Stream[Int] = fib1 #:: fibFrom(fib2, fib1 + fib2)
 
   /**
     * The sequence of all fibonacci numbers starting from 1
@@ -41,6 +46,7 @@ object StreamsExercise {
 
   /**
     * Returns the biggest number of specified digits.
+    *
     * @example 99 is the biggest number of 2 digits and 999 is the biggest with 3 digits.
     * @param digits number of digits
     * @return the biggest number with <code>n</code> digits
@@ -49,6 +55,7 @@ object StreamsExercise {
 
   /**
     * Calculates the sum of digits of <code>number</code>
+    *
     * @param number natural number
     * @return the sum of the digits of <code>number</code>
     * @see Don't do it with 'for' expressions. Instead transform the number to it's
@@ -61,6 +68,7 @@ object StreamsExercise {
 
   /**
     * Calculates the sum of digits powered by 3 of <code>number</code>
+    *
     * @param number natural number
     * @return the sum of the digits powered by 3 of <code>number</code>
     * @example sumOfDigitsPowThree(153) = 1*1*1 + 5*5*5 + 3*3*3 = 153
@@ -70,13 +78,18 @@ object StreamsExercise {
     * @see Know as a hint for the implementation that every char representing a digit
     *      has "asDigit" method to get its value
     */
-  def sumOfDigitsPowThree(number: Int) =  number.toString.map(_.asDigit).map(math.pow(_, 3).toInt).sum
+  def sumOfDigitsPowThree(number: Int) = number.toString.map(_.asDigit).map(math.pow(_, 3).toInt).sum
 
   /**
     * TASK1 - find all natural numbers which sum of the third powers of the their digits
     * is equal to the number itself.
+    *
     * @example 153 = 1*1*1 + 5*5*5 + 3*3*3
     */
+
+  def task1(): Stream[Int] = {
+    from(1).filter(x => sumOfDigitsPowThree(x) == x)
+  }
 
   /**
     * With the growth of the number's number of digits its value grows by 10 and the sum of third powers
@@ -86,32 +99,42 @@ object StreamsExercise {
     *
     * Find which is the maximum sizeof digits where it's still possible to have number with such digit
     * size satisfying the TASK1 condition.
+    *
     * @example for numbers of 6 digits theirs sum of the third powers of the digits is maximum 6x(9^3),
     *          which is 4374 and it's number with only 4 digits, much less that the minimum number of
     *          6 digits: 100000.
     * @see do not use 'for' operators, implement it based on the streams of all natural numbers and
     *      find the desired number based on that stream.
     */
-  val capOfDigitsSizeTask1 = ???
+  def lastNumFromTask1(): Int = {
+    from(1).filter(x => x > x.toString.length * Math.pow(9, 3)).head
+  }
+
+  val capOfDigitsSizeTask1 = lastNumFromTask1().toString.length
 
   /**
     * The stream of all numbers which may satisfy the TASK1 (defined above) conditions
+    *
     * @see Actually it is a stream computed from a range from 1 to the maximum number of
     *      the calculated capOfDigitsSizeTask1 digits.
     */
-  lazy val rangeStreamTask1 = ???
+    
+  lazy val rangeStreamTask1 = from(1).slice(0, lastNumFromTask1())
 
   /**
     * The stream of all numbers satisfying Task1 condition.
     */
-  lazy val resultStreamTask1 = ???
+
+  lazy val resultStreamTask1 = task1().take(5)
 
 
   def main(args: Array[String]): Unit = {
-    println("The fifth fibonacci number is " + fibFrom(1,1)(4))
+    println("The fifth fibonacci number is " + fibFrom(1, 1)(4))
 
-//    println("Task1 numbers are " + resultStreamTask1.toList)
+    println("Task1 numbers are " + resultStreamTask1.toList)
     // the expected result is List(1, 153, 370, 371, 407)
-
+    println("Task2 numbers are " + capOfDigitsSizeTask1)
   }
 }
+
+
