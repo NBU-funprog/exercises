@@ -94,8 +94,8 @@ class Architect {
         n
       else {
         shapes.head match{
-          case s:Triangle =>  iter(shapes.tail, if (triangleType(s).contains("rectangular")) n + 1 else n)
-          case t:Shape =>  iter(shapes.tail, n)
+          case t:Triangle =>  iter(shapes.tail, if (triangleType(t).contains("rectangular")) n + 1 else n)
+          case s:Shape =>  iter(shapes.tail, n)
         }
       }
     }
