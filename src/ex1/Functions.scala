@@ -13,13 +13,13 @@ object Functions {
     recLenght(data,0)
   }
   // Ако cond е true връща onTrue
-  def ifelse(cond: Boolean, onTrue: Int, onFalse: Int): Int = {
+  def ifelse(cond: Boolean, onTrue: => Any, onFalse: => Any): Any = {
     if (cond) onTrue else onFalse
   }
-  
+
   // Проверява дали скобите в даден масив от символи са балансирани.
   // Коректно: (a)asda(b)(v) | (((a))) | ()(()асдасд)
-  // Грешно: )() | ((д) | ((das) (d)( 
+  // Грешно: )() | ((д) | ((das) (d)(
   def balance(chars: List[Char]): Boolean = {
     def balanced(chars: List[Char], open: Int): Boolean =
       if (chars.isEmpty) open == 0
@@ -28,21 +28,21 @@ object Functions {
       else balanced(chars.tail,open)
     balanced(chars,0)
   }
-  
-  def map(chars: List[Char], f: Any) =  {
-      def recMap(chars: List[Char], f:(Char)=> Any, newChars: List[Any]): List[Any] ={
-        if (chars.isEmpty)
-          newChars
-        else
-          recMap(chars.tail, f, newChars :+ f(chars.head))
 
-      }
+  def map(chars: List[Char], f:(Char)=> Any) =  {
+    def recMap(chars: List[Char], f:(Char)=> Any, newChars: List[Any]): List[Any] ={
+      if (chars.isEmpty)
+        newChars
+      else
+        recMap(chars.tail, f, newChars :+ f(chars.head))
+
+    }
     recMap(chars,f, List())
   }
-  
+
   def toUpperCase(chars: List[Char]) = {
     def upperCase(char: Char) = {
-        char.toUpper
+      char.toUpper
     }
 
     def recChar(chars: List[Char], result: List[Char]): List[Char] ={
@@ -56,11 +56,11 @@ object Functions {
   }
 
   // Проверява дали съществува елемент отговарящ на f
-  def exists(data: List[Int], f: Any): Boolean = {
-    def recExists(data: List[Int], f: Any): Boolean = {
+  def exists(data: List[Int], f: (Int) => Boolean): Boolean = {
+    def recExists(data: List[Int], f: (Int) => Boolean): Boolean = {
       if (data.isEmpty)
         false
-      else if (f == data.head)
+      else if (f(data.head))
         true
       else
         recExists(data.tail,f)
@@ -69,12 +69,12 @@ object Functions {
   }
 
   // Връща масив съдържащ само елементите отговарящи на f
-    def filter(data: List[Int], f: Any) = {
-    def recFilter(data: List[Int], f: Any, result: List[Int]): List[Int] = {
+  def filter(data: List[Int], f: (Int) => Boolean) = {
+    def recFilter(data: List[Int], f: (Int) => Boolean, result: List[Int]): List[Int] = {
       if (data.isEmpty)
         result
       else {
-        if (f == data.head) {
+        if (f(data.head)) {
           recFilter(data.tail, f, result :+ data.head)
         }else{
           recFilter(data.tail, f, result)
@@ -85,11 +85,11 @@ object Functions {
   }
 
   // Проверява дали всички елементи отговарят на f
-   def forall(data: List[Int], f: Any) = {
-    def recForall(data: List[Int], f: Any, cnt: Int): Int = {
+  def forall(data: List[Int], f: (Int) => Boolean) = {
+    def recForall(data: List[Int], f: (Int) => Boolean, cnt: Int): Int = {
       if (data.isEmpty)
         cnt
-      else if (f == data.head)
+      else if (f(data.head))
         recForall(data.tail, f, cnt + 1)
       else
         recForall(data.tail, f, cnt)
