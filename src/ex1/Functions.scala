@@ -41,8 +41,18 @@ object Functions {
     }
     balance(chars,0)
   }
-  def map(chars: List[Char], f: Any) =  ???
-
+  def map(chars: List[Char], f:(Char) => Any) =  {
+    def Map_in(char:List[Char], f:(Char)=> Any, mp:List[Any]):List[Any]={
+      if(chars.isEmpty){
+        mp
+      }
+      else{
+        Map_in(chars.tail,f,mp:::f(chars.head))
+      }
+    }
+    Map_in(chars,f,List())
+  }
+//////////////////////////////////////////
   def toUpperCase(chars: List[Char]) = {
     def upperCase(char: Char) = {
       if(char>=97&&122<=char){
@@ -52,7 +62,7 @@ object Functions {
         char
       }
     }
-
+    map(chars,upperCase)
   }
   // Проверява дали съществува елемент отговарящ на f
   def exists(data: List[Int], f: Int=>Boolean):Boolean = {
