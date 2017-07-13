@@ -81,7 +81,7 @@ object Functions {
     }
   }
 
-  // Връща масив съдържащ само елементите отговарящи на f --тази тук
+  // Връща масив съдържащ само елементите отговарящи на f
   def filter(data: List[Int], f:(Int)=>Boolean) = {
     def filtraion(currentData: List[Int], f: (Int) => Boolean, filelm: List[Int]): List[Int] = {
       if (currentData.isEmpty) {
@@ -100,7 +100,7 @@ object Functions {
 
     filtraion(data, f, List())
   }
-  // Проверява дали всички елементи отговарят на f --- тази тук
+  // Проверява дали всички елементи отговарят на f
   def forall(data: List[Int], f: (Int)=> Boolean):Boolean = {
     // имплементация на един ред !exists(data, !f(_));
     if(data.isEmpty)
