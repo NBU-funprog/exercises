@@ -43,19 +43,19 @@ object Functions {
   }
   def map(chars: List[Char], f:(Char) => Any) =  {
     def Map_in(char:List[Char], f:(Char)=> Any, mp:List[Any]):List[Any]={
-      if(chars.isEmpty){
+      if(char.isEmpty){
         mp
       }
       else{
-        Map_in(chars.tail,f,mp:::f(chars.head))
+        Map_in(char.tail,f,mp:+f(char.head))
       }
     }
     Map_in(chars,f,List())
   }
-//////////////////////////////////////////
+
   def toUpperCase(chars: List[Char]) = {
     def upperCase(char: Char) = {
-      if(char>=97&&122<=char){
+      if(char>=97&&122>=char){
         (char-32).toChar
       }
       else{
@@ -81,43 +81,51 @@ object Functions {
     }
   }
 
-  // Връща масив съдържащ само елементите отговарящи на f
-  //data.filter(f:Int=>Boolean)
-  def filter(data: List[Int], f:(Int)=>Boolean):List[Int] = {
-    def filtraion(data: List[Int], f: (Int) => Boolean, filelm: List[Int]): List[Int] = {
-      if (data.isEmpty) {
+  // Връща масив съдържащ само елементите отговарящи на f --тази тук
+  def filter(data: List[Int], f:(Int)=>Boolean) = {
+    def filtraion(currentData: List[Int], f: (Int) => Boolean, filelm: List[Int]): List[Int] = {
+      if (currentData.isEmpty) {
         filelm
       }
       else {
-        if (f(data.head)) {
-          filtraion(data.tail, f, filelm :+ data.head)
+        if (f(currentData.head)) {
+          filtraion(currentData.tail, f, filelm :+ currentData.head)
         }
         else {
-          filtraion(data.tail, f, filelm)
+          filtraion(currentData.tail, f, filelm)
         }
       }
-      filtraion(data, f, List())
+
     }
+
+    filtraion(data, f, List())
   }
-  // Проверява дали всички елементи отговарят на f
-  def forall(data: List[Int], f: Int): Boolean={
-    //data.forall(xs=>xs == f)
+  // Проверява дали всички елементи отговарят на f --- тази тук
+  def forall(data: List[Int], f: (Int)=> Boolean):Boolean = {
+    // имплементация на един ред !exists(data, !f(_));
     if(data.isEmpty)
     {
-      false
+      true
     }
     else
     {
-      if(f(data.head)){
-        true
+      if(!f(data.head)){
+        false
       }
       else {
-        exists(data.tail, f)
+        forall(data.tail, f);
       }
     }
   }
+  //  val l = List(1,2,2,2,3)
+  //  println(forall(l,x=>x<3))
+
   // Връща числото от триъгълника на Паскал отговарящо на съответния ред/колона
   def pascal(c: Int, r: Int): Int ={
+    if (c>r||c < 0||r < 0) {
+      return -1;
+    }
+
     if(c==0||c==r||r==0) {
       1
     }
